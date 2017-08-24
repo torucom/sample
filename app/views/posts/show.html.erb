@@ -1,0 +1,56 @@
+<h2><%= @post.title %></h2>
+  <table>
+    <tr>
+      <th>Amount</th>
+      <th>Total payment</th>
+      <th>difference</th>
+    </tr>
+    <tr>
+      <td>¥<%= @post.body.to_s(:delimited) %></td>
+      <td>¥<%= @post.comments.sum(:body).to_s(:delimited) %></td>
+      <td >¥<%= (@post.body) - (@post.comments.sum(:body)) %></td>
+    </tr>
+  </table>
+
+<h3>Payments</h3>
+  <% if @post.comments.any? %>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Destination</th>
+      <th>Price</th>
+    </tr>
+    <% @post.comments.each do |comment| %>
+    <tr>
+      <td class="date"><%= comment.updated_at.strftime("%Y.%m.%d") %></td>
+      <td class="dest"><%= comment.title %></td>
+      <td class="price">¥<%= comment.body %> <%= link_to '[x]',
+    post_comment_path(@post, comment),
+    method: :delete,
+    class: 'command',
+    data: { confirm: 'Sure?' } %></td>
+    </tr>
+    <% end %>
+    <td colspan="2">total</td>
+    <td class="price">¥<%= @post.comments.sum(:body).to_s(:delimited) %></td>
+  </table>
+
+  <% end %>
+
+<h3>Add a payment</h3>
+
+<%= form_for([@post, @post.comments.build]) do |f| %>
+<p>
+  <%= f.text_field :title, placeholder: 'enter Payment destination'  %>
+</p>
+<p>
+  <%= f.text_field :body, placeholder: 'enter Price'  %>
+</p>
+<p>
+  <%= f.submit "create payment", data: { disable_with: "sending..." } %>
+</p>
+<% end %>
+
+<p>
+  <%= link_to '<< Back to Index', posts_path %>
+</p>
