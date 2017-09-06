@@ -37,20 +37,22 @@
 
   <% end %>
 
-<h3>Add a payment</h3>
+  <section class="sendPayment">
+    <h3>Add a payment</h3>
 
-<%= form_for([@post, @post.comments.build]) do |f| %>
-<p>
-  <%= f.text_field :title, placeholder: 'enter Payment destination'  %>
-</p>
-<p>
-  <%= f.text_field :body, placeholder: 'enter Price'  %>
-</p>
-<p>
-  <%= f.submit "create payment", data: { disable_with: "sending..." } %>
-</p>
-<% end %>
+    <%= form_for([@post, @post.comments.build]) do |f| %>
+    <p>
+      <%= f.text_field :title, placeholder: 'enter Payment destination'  %>
+    </p>
+    <p>
+      <%= f.text_field :body, placeholder: 'enter Price'  %>
+    </p>
+    <p>
+      <%= f.submit "create payment", data: { disable_with: "sending..." } %>
+    </p>
+    <% end %>
 
-<p>
-  <%= link_to '<< Back to Index', posts_path %>
-</p>
+    <p>
+      <%= link_to '<< Back to Index', posts_path %>
+    </p>
+  </section>
